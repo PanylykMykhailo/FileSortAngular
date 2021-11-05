@@ -15,14 +15,12 @@ export class ShowFileComponent implements OnInit {
   constructor(private service:SharedService) { }
 
   FilesortList:any = [];
-  //RootPath:string[] =["Todo1","Todo2","Todo3"];
   ModalTitle?:string;
-  ActivateAddEditFileComp:boolean=false;
+  ActivateAddEditFileComp:boolean = false;
   file:any;
-  path?:string="";
   actionChoose:string = location.href.split('/').slice(-1)[0];
   ngOnInit(): void {
-    this.refreshFileSortList(this.actionChoose,"Test*");
+    this.refreshFileSortList(this.actionChoose,"");
   }
 
   addClick()
@@ -80,15 +78,16 @@ export class ShowFileComponent implements OnInit {
 
   checkClick(nameFolder:string)
   {
-    let tempfields = this.returnPath(false,0,false);
+    var tempfields = this.returnPath(false,0,false);
+    console.log(tempfields + nameFolder);
     this.refreshFileSortList(this.actionChoose,tempfields + nameFolder)
   }
-  refreshFileSortList(val:string,path:string)
+  refreshFileSortList(val:string,some:string)
   {
     switch(val)
     {
       case "file":
-        this.service.getOnlyFile(path).subscribe(data=>
+        this.service.getOnlyFile(some).subscribe(data=>
           {
             this.FilesortList = data;
           });
@@ -122,10 +121,10 @@ export class ShowFileComponent implements OnInit {
     if(status)
     {
       this.FilesortList.folderPath?.forEach((element:string,i:number) => {
-        tempfields +=  i <= index ? element + "*":'';
+        tempfields +=  i <= index ? element + "*":"";
       });
       tempfields = tempfields.slice(0,-1);
-      console.log(tempfields);
+      //console.log(tempfields);
       return tempfields;
     }
     else{
@@ -133,7 +132,7 @@ export class ShowFileComponent implements OnInit {
         tempfields += element + "*";
       });
       tempfields = trim ? tempfields.slice(0,-1) : tempfields;
-      console.log(tempfields);
+      //console.log(tempfields
       return tempfields;
     }
   }
