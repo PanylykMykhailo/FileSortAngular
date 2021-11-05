@@ -18,9 +18,10 @@ export class ShowFileComponent implements OnInit {
   ModalTitle?:string;
   ActivateAddEditFileComp:boolean=false;
   file:any;
+  actionChoose:string = location.href.split('/').slice(-1)[0];
   ngOnInit(): void {
     
-    this.refreshFileSortList(location.href.split('/').slice(-1)[0]);
+    this.refreshFileSortList(this.actionChoose);
   }
 
   addClick()
@@ -41,7 +42,7 @@ export class ShowFileComponent implements OnInit {
   }
   closeClick(){
     this.ActivateAddEditFileComp = false;
-    this.refreshFileSortList("true");
+    this.refreshFileSortList(this.actionChoose);
   }
   renameClick(item:any)
   {
@@ -58,9 +59,13 @@ export class ShowFileComponent implements OnInit {
         newNameFile:""
       }
       this.service.deleteFile(upItem).subscribe(data=>{
-        this.refreshFileSortList("true");
+        this.refreshFileSortList(this.actionChoose);
       })
     }
+  }
+  checkClick(nameFolder:any)
+  {
+    console.log(nameFolder);
   }
   refreshFileSortList(val:string)
   {
