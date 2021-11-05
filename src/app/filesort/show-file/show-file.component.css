@@ -8,3 +8,7 @@ li{
     background-position: right top;
     background-size: 1px 100%;
   }
+.test:after {
+    content: '\2807';
+    font-size: 25px;
+}
