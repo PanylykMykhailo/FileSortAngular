@@ -73,10 +73,16 @@ export class ShowFileComponent implements OnInit {
           });
         break;
       case "video":
-        console.log("video");
+        this.service.getOnlyVideo().subscribe(data=>
+          {
+            this.FilesortList = data;
+          });
         break;
       case "photo":
-          console.log("photo");
+        this.service.getOnlyPhoto().subscribe(data=>
+          {
+            this.FilesortList = data;
+          });
           break;
       case "filesort":
         this.service.getFileList().subscribe(data=>
@@ -88,7 +94,5 @@ export class ShowFileComponent implements OnInit {
         console.log("Not Found");
         break;
     }
-    
-    /**/
   }
 }
