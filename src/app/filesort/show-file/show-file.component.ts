@@ -105,7 +105,7 @@ export class ShowFileComponent implements OnInit {
           });
           break;
       case "filesort":
-        this.service.getFileList().subscribe(data=>
+        this.service.getFileList(some).subscribe(data=>
           {
             this.FilesortList = data;
           });

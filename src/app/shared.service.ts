@@ -8,11 +8,15 @@ import { environment } from 'src/environments/environment';
 export class SharedService {
   constructor(private http:HttpClient) { }
 
-  getFileList():Observable<any[]>
+  getFileList(some:string):Observable<any[]>
   { 
-    return this.http.get<any>(environment.APIUrl+ '/File');
+    if(some==="")
+    {
+      some = "Test"
+    }
+    return this.http.get<any>(environment.APIUrl+ '/File/' + some + "/*");
   }
-  getOnlyFile(some:any):Observable<any[]>
+  getOnlyFile(some:string):Observable<any[]>
   {
     if(some==="")
     {
