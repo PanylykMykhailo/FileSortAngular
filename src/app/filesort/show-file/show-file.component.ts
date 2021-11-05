@@ -14,13 +14,12 @@ export class ShowFileComponent implements OnInit {
   constructor(private service:SharedService) { }
 
   FilesortList:any = [];
-
+  RootPath:string[] =["Todo1","Todo2","Todo3"];
   ModalTitle?:string;
   ActivateAddEditFileComp:boolean=false;
   file:any;
   actionChoose:string = location.href.split('/').slice(-1)[0];
   ngOnInit(): void {
-    
     this.refreshFileSortList(this.actionChoose);
   }
 
