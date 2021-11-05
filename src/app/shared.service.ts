@@ -14,7 +14,7 @@ export class SharedService {
   }
   getOnlyFile(val:any):Observable<any[]>
   {
-    if(val===null)
+    if(val==="")
     {
       val = "Test"
     }

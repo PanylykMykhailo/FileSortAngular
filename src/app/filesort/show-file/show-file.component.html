@@ -17,7 +17,7 @@
     </div>
   </div>
 <ul class="nav">
-  <li *ngFor="let item of FilesortList.folderPath"><a class="nav-link active" aria-current="page" href="#">{{item}}</a></li>
+  <li *ngFor="let item of FilesortList.folderPath;let i = index" [attr.data-index]="i"><a class="nav-link active" aria-current="page" href="javascript:void(0);" (click)="openFolderClick(i)">{{item}}</a></li>
 </ul>
 <table class ="table table-hover">
     <thead>

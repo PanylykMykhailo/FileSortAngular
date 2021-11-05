@@ -1,3 +1,4 @@
+import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
@@ -18,9 +19,10 @@ export class ShowFileComponent implements OnInit {
   ModalTitle?:string;
   ActivateAddEditFileComp:boolean=false;
   file:any;
+  path?:string="";
   actionChoose:string = location.href.split('/').slice(-1)[0];
   ngOnInit(): void {
-    this.refreshFileSortList(this.actionChoose);
+    this.refreshFileSortList(this.actionChoose,"Test*");
   }
 
   addClick()
@@ -41,7 +43,9 @@ export class ShowFileComponent implements OnInit {
   }
   closeClick(){
     this.ActivateAddEditFileComp = false;
-    this.refreshFileSortList(this.actionChoose);
+    //All path status false trim
+    var tepmpath = this.returnPath(false,0,true); 
+    this.refreshFileSortList(this.actionChoose,tepmpath);
   }
   renameClick(item:any)
   {
@@ -57,24 +61,34 @@ export class ShowFileComponent implements OnInit {
         typeFile:item.typeFile,
         newNameFile:""
       }
+      //All path status false trim *;
+      var tepmpath = this.returnPath(false,0,true);
       this.service.deleteFile(upItem).subscribe(data=>{
-        this.refreshFileSortList(this.actionChoose);
+        this.refreshFileSortList(this.actionChoose,tepmpath);
       })
     }
   }
-  checkClick(nameFolder:any)
+  openFolderClick(index:number)
   {
-    this.service.getOnlyFile("Test*"+nameFolder).subscribe(data=>
-      {
-        this.FilesortList = data;
-      });
+    var tepmpath = "";
+    if(index != 0)
+    {
+      tepmpath = this.returnPath(true,index,true);
+    }
+    this.refreshFileSortList(this.actionChoose,tepmpath);
   }
-  refreshFileSortList(val:string)
+
+  checkClick(nameFolder:string)
+  {
+    let tempfields = this.returnPath(false,0,false);
+    this.refreshFileSortList(this.actionChoose,tempfields + nameFolder)
+  }
+  refreshFileSortList(val:string,path:string)
   {
     switch(val)
     {
       case "file":
-        this.service.getOnlyFile(null).subscribe(data=>
+        this.service.getOnlyFile(path).subscribe(data=>
           {
             this.FilesortList = data;
           });
@@ -100,6 +114,27 @@ export class ShowFileComponent implements OnInit {
       default:
         console.log("Not Found");
         break;
+    }
+  }
+  returnPath(status:boolean,index:number,trim:boolean):string
+  {
+    var tempfields = "";
+    if(status)
+    {
+      this.FilesortList.folderPath?.forEach((element:string,i:number) => {
+        tempfields +=  i <= index ? element + "*":'';
+      });
+      tempfields = tempfields.slice(0,-1);
+      console.log(tempfields);
+      return tempfields;
+    }
+    else{
+      this.FilesortList.folderPath?.forEach((element:string) => {
+        tempfields += element + "*";
+      });
+      tempfields = trim ? tempfields.slice(0,-1) : tempfields;
+      console.log(tempfields);
+      return tempfields;
     }
   }
 }
