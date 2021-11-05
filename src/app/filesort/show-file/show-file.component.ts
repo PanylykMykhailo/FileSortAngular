@@ -14,7 +14,7 @@ export class ShowFileComponent implements OnInit {
   constructor(private service:SharedService) { }
 
   FilesortList:any = [];
-  RootPath:string[] =["Todo1","Todo2","Todo3"];
+  //RootPath:string[] =["Todo1","Todo2","Todo3"];
   ModalTitle?:string;
   ActivateAddEditFileComp:boolean=false;
   file:any;
@@ -64,14 +64,17 @@ export class ShowFileComponent implements OnInit {
   }
   checkClick(nameFolder:any)
   {
-    console.log(nameFolder);
+    this.service.getOnlyFile("Test*"+nameFolder).subscribe(data=>
+      {
+        this.FilesortList = data;
+      });
   }
   refreshFileSortList(val:string)
   {
     switch(val)
     {
       case "file":
-        this.service.getOnlyFile().subscribe(data=>
+        this.service.getOnlyFile(null).subscribe(data=>
           {
             this.FilesortList = data;
           });

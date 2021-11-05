@@ -17,7 +17,7 @@
     </div>
   </div>
 <ul class="nav">
-  <li *ngFor="let item of RootPath"><a class="nav-link active" aria-current="page" href="#">{{item}}</a></li>
+  <li *ngFor="let item of FilesortList.folderPath"><a class="nav-link active" aria-current="page" href="#">{{item}}</a></li>
 </ul>
 <table class ="table table-hover">
     <thead>
@@ -40,7 +40,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor = "let dataItem of FilesortList">
+        <tr *ngFor = "let dataItem of FilesortList.infoaboutFile">
             <td>
               <svg *ngIf = "dataItem.typeFile == '.txt'" title = "File" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-bar-graph" viewBox="0 0 16 16">
               <path d="M10 13.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-6a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v6zm-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1z"/>

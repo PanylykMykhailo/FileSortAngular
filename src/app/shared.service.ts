@@ -12,9 +12,13 @@ export class SharedService {
   { 
     return this.http.get<any>(environment.APIUrl+ '/File');
   }
-  getOnlyFile():Observable<any[]>
+  getOnlyFile(val:any):Observable<any[]>
   {
-    return this.http.get<any>(environment.APIFileUrl + '/File/GetOnlyFile');
+    if(val===null)
+    {
+      val = "Test"
+    }
+    return this.http.get<any>(environment.APIFileUrl + '/File/GetOnlyFile/'+val);
   }
   getOnlyVideo():Observable<any[]>
   {
