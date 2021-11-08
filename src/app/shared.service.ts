@@ -30,7 +30,7 @@ export class SharedService {
     {
       some = "Test"
     }
-    return this.http.get<any>(environment.APIVideoUrl);
+    return this.http.get<any>(environment.APIVideoUrl + '/Video/GetOnlyVideo/' + some);
   }
   getOnlyPhoto(some:string):Observable<any[]>
   {

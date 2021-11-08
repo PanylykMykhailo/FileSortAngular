@@ -7,7 +7,7 @@ export const environment = {
   APIUrl:"https://localhost:5001/api",
   APIFileUrl:"https://localhost:6001/api/fileservice",
   APIPhotoUrl:"https://localhost:7001/api/photoservice",
-  APIVideoUrl:"https://localhost:7001/api/videoservice"
+  APIVideoUrl:"https://localhost:8001/api/videoservice"
   
 };
 
