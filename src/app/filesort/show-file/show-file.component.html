@@ -1,4 +1,20 @@
-  
+<form #filedata = "ngForm" (ngSubmit)="uploadFile(filedata);">
+  <dl>
+      <dt>
+          <label for="FileUpload_FormFile">File</label>
+      </dt>
+      <dd>
+          <input id="FileUpload_FormFile" type="file" 
+              name="FileUpload.FormFile" />
+      </dd>
+  </dl>
+
+  <input class="btn" type="submit" value="Upload" />
+
+  <div style="margin-top:15px">
+      <output name="result"></output>
+  </div>
+</form>
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role = "document">

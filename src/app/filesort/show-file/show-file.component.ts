@@ -1,5 +1,6 @@
 import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { SharedService } from 'src/app/shared.service'; 
@@ -13,7 +14,6 @@ import { environment } from 'src/environments/environment';
 export class ShowFileComponent implements OnInit {
 
   constructor(private service:SharedService) { }
-
   FilesortList:any = [];
   ModalTitle?:string;
   ActivateAddEditFileComp:boolean = false;
@@ -25,7 +25,18 @@ export class ShowFileComponent implements OnInit {
   ngOnInit(): void {
     this.refreshFileSortList(this.actionChoose,"");
   }
-
+  uploadFile (oFormElement:any) {
+    console.log(oFormElement);
+    const file:File = oFormElement.target.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append("thumbnail", file);
+        this.service.uploadFile(formData).subscribe(data=>
+          {
+            console.log(data);
+          });
+   }
+  }
   addClick()
   {
     this.file =

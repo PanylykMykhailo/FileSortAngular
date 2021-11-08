@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import{HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { NgForm } from '@angular/forms';
 @Injectable({
   providedIn: 'root'
 })
@@ -31,6 +32,10 @@ export class SharedService {
       some = "Test"
     }
     return this.http.get<any>(environment.APIVideoUrl + '/Video/GetOnlyVideo/' + some);
+  }
+  uploadFile(formData:any)
+  {
+    return this.http.post<any>(environment.APIUrl + '/File/SaveFile',formData);
   }
   getOnlyPhoto(some:string):Observable<any[]>
   {
