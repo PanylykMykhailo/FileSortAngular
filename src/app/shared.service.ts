@@ -24,13 +24,21 @@ export class SharedService {
     }
     return this.http.get<any>(environment.APIFileUrl + '/File/GetOnlyFile/'+ some);
   }
-  getOnlyVideo():Observable<any[]>
+  getOnlyVideo(some:string):Observable<any[]>
   {
+    if(some==="")
+    {
+      some = "Test"
+    }
     return this.http.get<any>(environment.APIVideoUrl);
   }
-  getOnlyPhoto():Observable<any[]>
+  getOnlyPhoto(some:string):Observable<any[]>
   {
-    return this.http.get<any>(environment.APIPhotoUrl);
+    if(some==="")
+    {
+      some = "Test"
+    }
+    return this.http.get<any>(environment.APIPhotoUrl + '/Photo/GetOnlyPhoto/'+ some);
   }
   renameFile(val:any)
   {

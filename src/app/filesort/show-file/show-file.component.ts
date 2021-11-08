@@ -93,13 +93,13 @@ export class ShowFileComponent implements OnInit {
           });
         break;
       case "video":
-        this.service.getOnlyVideo().subscribe(data=>
+        this.service.getOnlyVideo(some).subscribe(data=>
           {
             this.FilesortList = data;
           });
         break;
       case "photo":
-        this.service.getOnlyPhoto().subscribe(data=>
+        this.service.getOnlyPhoto(some).subscribe(data=>
           {
             this.FilesortList = data;
           });
