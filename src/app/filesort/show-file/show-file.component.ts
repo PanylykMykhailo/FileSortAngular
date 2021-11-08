@@ -17,6 +17,9 @@ export class ShowFileComponent implements OnInit {
   FilesortList:any = [];
   ModalTitle?:string;
   ActivateAddEditFileComp:boolean = false;
+  OnlyFile:string[] = [".txt", ".doc", ".docx", ".docm", ".rtf", ".odt",".pdf",".arj", ".zip", ".rar", ".tar"];
+  OnlyPhoto:string[] = [".svg", ".apng", ".fle", ".wlmp", ".bmp", ".gif", ".jpeg", ".tiff", ".png", ".eps", ".pdf", ".wmf"];
+  OnlyVideo:string[] = [".mp3", ".wav", ".wma", ".midi",".avi", ".flv", ".swf", ".wmv", ".mov", ".mpeg"];
   file:any;
   actionChoose:string = location.href.split('/').slice(-1)[0];
   ngOnInit(): void {
