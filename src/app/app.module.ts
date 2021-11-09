@@ -11,12 +11,14 @@ import { SharedService } from "./shared.service";
 import { HttpClientModule} from '@angular/common/http';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UploadFileComponent } from './filesort/upload-file/upload-file.component';
 @NgModule({
   declarations: [
     AppComponent,
     FilesortComponent,
     ShowFileComponent,
-    AddEditFileComponent
+    AddEditFileComponent,
+    UploadFileComponent
   ],
   imports: [
     BrowserModule,

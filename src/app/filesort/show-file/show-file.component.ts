@@ -1,13 +1,6 @@
 import { HttpEventType, HttpResponse, HttpStatusCode } from '@angular/common/http';
-import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { AppComponent } from 'src/app/app.component';
 import { SharedService } from 'src/app/shared.service'; 
-import { environment } from 'src/environments/environment';
-//import { runInThisContext } from 'vm';
 @Component({
   selector: 'app-show-file',
   templateUrl: './show-file.component.html',
@@ -15,22 +8,9 @@ import { environment } from 'src/environments/environment';
 })
 export class ShowFileComponent implements OnInit {
   document: any;
-
+  isActive?:boolean = false; 
   constructor(private service:SharedService) { }
-  selectedFiles?: FileList;
-  progressInfos : any[]=[];
-  message = '';
-  check?:FormArray[];
-  fileInfos?: Observable<any>;
-  
-  // myForm = new FormGroup({
-  //   name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-  //   file: new FormControl('', [Validators.required]),
-  //   fileSource: new FormControl('', [Validators.required])
-  // });
   open3Dots:boolean=false;
-  allFile?:FormData;
-
   FilesortList:any = [];
   ModalTitle?:string;
   ActivateAddEditFileComp:boolean = false;
@@ -42,42 +22,9 @@ export class ShowFileComponent implements OnInit {
   ngOnInit(): void {
     this.refreshFileSortList(this.actionChoose,"");
   }
-  selectFiles(event:any): void {
-    this.progressInfos = [];
-    this.selectedFiles = event?.target?.files;
-  }
-  uploadFiles(): void {
-    this.message = '';
-    const selectedFilesCopy = this.selectedFiles ?? null;
-    if(selectedFilesCopy)
-    {
-      var myFormData: FormData = new FormData();
-      for (let i = 0; i < selectedFilesCopy.length; i++) {
-        let file: File = selectedFilesCopy[i];
-        myFormData.append('files', file, file.name); 
-        this.progressInfos[i] = {value: 0, fileName:file.name}
-      }
-      this.service.uploadFile(myFormData).subscribe(
-        event => {
-          if (event.statusCode === HttpStatusCode.Created) {
-            console.log("goto");
-            this.progressInfos.forEach((element,index)=>
-            {
-              this.progressInfos[index].value = Math.round(100);
-            })
-             
-          } else if (event instanceof HttpResponse) {
-            this.fileInfos = this.service.getFileList("");
-          }
-        },
-        err =>{
-          console.log("not found");
-        });
-      this.refreshFileSortList(this.actionChoose,"");
-    }
-  }
   addClick()
   {
+    console.log("goto");
     this.fileI =
     {
       NameFile:null,
@@ -85,7 +32,7 @@ export class ShowFileComponent implements OnInit {
     }
     this.ModalTitle = "Add File";
     this.ActivateAddEditFileComp = true;
-
+    this.isActive = false;
   }
   editClick(item: any){
     this.fileI = item;
@@ -189,8 +136,8 @@ export class ShowFileComponent implements OnInit {
       return tempfields;
     }
   }
-  isClick3Dots(isClick3dots:boolean)
+  isClick3Dots()
   {
-    this.open3Dots = this.open3Dots === true ? false:isClick3dots;
+    this.isActive = this.isActive ? false:true;
   }
 }
