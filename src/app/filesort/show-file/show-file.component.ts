@@ -1,7 +1,9 @@
+import { HttpEventType, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
 import { SharedService } from 'src/app/shared.service'; 
 import { environment } from 'src/environments/environment';
@@ -12,34 +14,71 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./show-file.component.css']
 })
 export class ShowFileComponent implements OnInit {
+  document: any;
 
   constructor(private service:SharedService) { }
+  selectedFiles?: FileList;
+  progressInfos : any[]=[];
+  message = '';
+  check?:FormArray[];
+  fileInfos?: Observable<any>;
+  
+  // myForm = new FormGroup({
+  //   name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+  //   file: new FormControl('', [Validators.required]),
+  //   fileSource: new FormControl('', [Validators.required])
+  // });
+  open3Dots:boolean=false;
+  allFile?:FormData;
+
   FilesortList:any = [];
   ModalTitle?:string;
   ActivateAddEditFileComp:boolean = false;
   OnlyFile:string[] = [".txt", ".doc", ".docx", ".docm", ".rtf", ".odt",".pdf",".arj", ".zip", ".rar", ".tar"];
-  OnlyPhoto:string[] = [".svg", ".apng", ".fle", ".wlmp", ".bmp", ".gif", ".jpeg", ".tiff", ".png", ".eps", ".pdf", ".wmf"];
-  OnlyVideo:string[] = [".mp3", ".wav", ".wma", ".midi",".avi", ".flv", ".swf", ".wmv", ".mov", ".mpeg"];
-  file:any;
+  OnlyPhoto:string[] = [".svg", ".apng", ".fle", ".wlmp", ".bmp", ".gif", ".jpeg", ".tiff", ".png", ".eps", ".pdf", ".wmf",".jpg",".jfif"];
+  OnlyVideo:string[] = [".mp3",".mp4", ".wav", ".wma", ".midi",".avi", ".flv", ".swf", ".wmv", ".mov", ".mpeg"];
   actionChoose:string = location.href.split('/').slice(-1)[0];
+  fileI:any;
   ngOnInit(): void {
     this.refreshFileSortList(this.actionChoose,"");
   }
-  uploadFile (oFormElement:any) {
-    console.log(oFormElement);
-    const file:File = oFormElement.target.files[0];
-    if (file) {
-        const formData = new FormData();
-        formData.append("thumbnail", file);
-        this.service.uploadFile(formData).subscribe(data=>
-          {
-            console.log(data);
-          });
-   }
+  selectFiles(event:any): void {
+    this.progressInfos = [];
+    this.selectedFiles = event?.target?.files;
+  }
+  uploadFiles(): void {
+    this.message = '';
+    const selectedFilesCopy = this.selectedFiles ?? null;
+    if(selectedFilesCopy)
+    {
+      var myFormData: FormData = new FormData();
+      for (let i = 0; i < selectedFilesCopy.length; i++) {
+        let file: File = selectedFilesCopy[i];
+        myFormData.append('files', file, file.name); 
+        this.progressInfos[i] = {value: 0, fileName:file.name}
+      }
+      this.service.uploadFile(myFormData).subscribe(
+        event => {
+          if (event.statusCode === HttpStatusCode.Created) {
+            console.log("goto");
+            this.progressInfos.forEach((element,index)=>
+            {
+              this.progressInfos[index].value = Math.round(100);
+            })
+             
+          } else if (event instanceof HttpResponse) {
+            this.fileInfos = this.service.getFileList("");
+          }
+        },
+        err =>{
+          console.log("not found");
+        });
+      this.refreshFileSortList(this.actionChoose,"");
+    }
   }
   addClick()
   {
-    this.file =
+    this.fileI =
     {
       NameFile:null,
       DateCreatedFile:""
@@ -49,7 +88,7 @@ export class ShowFileComponent implements OnInit {
 
   }
   editClick(item: any){
-    this.file = item;
+    this.fileI = item;
     this.ModalTitle = "Edit File";
     this.ActivateAddEditFileComp = true;
   }
@@ -61,7 +100,7 @@ export class ShowFileComponent implements OnInit {
   }
   renameClick(item:any)
   {
-    this.file = item;
+    this.fileI = item;
     this.ModalTitle = "Rename File";
     this.ActivateAddEditFileComp = true;
   }
@@ -89,7 +128,7 @@ export class ShowFileComponent implements OnInit {
     }
     this.refreshFileSortList(this.actionChoose,tepmpath);
   }
-
+  
   checkClick(nameFolder:string)
   {
     var tempfields = this.returnPath(false,0,false);
@@ -149,5 +188,9 @@ export class ShowFileComponent implements OnInit {
       //console.log(tempfields
       return tempfields;
     }
+  }
+  isClick3Dots(isClick3dots:boolean)
+  {
+    this.open3Dots = this.open3Dots === true ? false:isClick3dots;
   }
 }

@@ -33,7 +33,7 @@ export class SharedService {
     }
     return this.http.get<any>(environment.APIVideoUrl + '/Video/GetOnlyVideo/' + some);
   }
-  uploadFile(formData:any)
+  uploadFile(formData:FormData)
   {
     return this.http.post<any>(environment.APIUrl + '/File/SaveFile',formData);
   }
