@@ -44,18 +44,15 @@
             <th width="20%">Size File</th>
             <th width="20%">Created File</th>
             <th width="15%">
-              <div [ngClass]="{'dropout': true,'active': isActive }">
-                <button class="more" (click)="isClick3Dots()">
-                 <span></span><span></span><span></span>
+              <div [ngClass]="{'btn-group': true,'dropup': true,'show':isActive }">
+                <button type="button" (click)="isClick3Dots()" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="isActive" aria-expanded="false">
+                  Dropup
                 </button>
-                <ul>
-                  <li>
-                    <a class="dropdown-item" 
+                <div [ngClass]="{'dropdown-menu': true,'show': isActive}">
+                  <a class="dropdown-item" 
                     data-bs-toggle="modal" data-bs-target="#addFileModal"
                     href="javascript:void(0);" (click)="addClick()"
                     data-backdrop = "static" data-keyboard="false">Add new File</a>
-                  </li>
-                  <li>
                     <a 
                     class="dropdown-item"
                     data-bs-toggle="modal" data-bs-target="#uploadModal"
@@ -63,8 +60,8 @@
                     data-backdrop = "static" data-keyboard="false">
                     Upload File
                   </a>
-                  </li>
-                </ul>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
               </div>
             </th>
         </tr>
