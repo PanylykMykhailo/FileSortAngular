@@ -16,7 +16,7 @@ export class AddEditFileComponent implements OnInit {
   newNameFile?:string;
   dateCreatedFile?:string;
   modalTitle?:string;
-  listExtension:string[]=[".txt",".bpm","folder",".rtf",".zip"]
+  listExtension:string[]=[".txt",".bmp","folder",".rtf",".zip", ".doc", ".docx", ".docm", ".odt",".pdf",".arj", ".rar", ".tar",".svg", ".apng", ".fle", ".wlmp", ".gif", ".jpeg", ".tiff", ".png", ".eps", ".pdf", ".wmf",".jpg",".jfif",".mp3",".mp4", ".wav", ".wma", ".midi",".avi", ".flv", ".swf", ".wmv", ".mov", ".mpeg"]
   ngOnInit(): void {
     this.nameFile = this.file.nameFile;
     this.typeFile = this.file.typeFile;
@@ -34,7 +34,7 @@ export class AddEditFileComponent implements OnInit {
       currentDirectory:temppath
     };
     this.service.addFile(val).subscribe(res=>{
-      alert(res.toString())
+      alert("Add new element");
     })
   }
   updateFile(){
