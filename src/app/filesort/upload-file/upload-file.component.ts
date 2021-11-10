@@ -25,6 +25,7 @@ export class UploadFileComponent implements OnInit {
   }
   uploadFiles(): void {
     this.message = '';
+    var temppath = this.show_file.returnPath(false,0,true);
     const selectedFilesCopy = this.selectedFiles ?? null;
     if(selectedFilesCopy)
     {
@@ -34,21 +35,19 @@ export class UploadFileComponent implements OnInit {
         myFormData.append('files', file, file.name); 
         this.progressInfos[i] = {value: 0, fileName:file.name}
       }
-      this.service.uploadFile(myFormData).subscribe(
+      this.service.uploadFile(myFormData,temppath).subscribe(
         event => {
           if (event.statusCode === HttpStatusCode.Created) {
-            console.log("goto");
             this.progressInfos.forEach((element,index)=>
             {
               this.progressInfos[index].value = Math.round(100);
             })
-             
           } 
         },
         err =>{
           console.log("not found");
         });
-      this.show_file.refreshFileSortList(this.actionChoose,"");
+      this.show_file.refreshFileSortList(this.actionChoose,temppath);
     }
   }
 }

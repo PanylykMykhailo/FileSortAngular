@@ -50,6 +50,7 @@ export class ShowFileComponent implements OnInit {
   }
   closeClick(){
     this.ActivateAddEditFileComp = false;
+    this.ActivateUploadFileComp = false;
     //All path status false trim
     var tepmpath = this.returnPath(false,0,true); 
     this.refreshFileSortList(this.actionChoose,tepmpath);
@@ -67,8 +68,8 @@ export class ShowFileComponent implements OnInit {
       let upItem = {
         nameFile:item.nameFile,
         typeFile:item.typeFile,
-        newNameFile:"",
-        currentDirectory:tepmpath
+        currentDirectory:tepmpath,
+        isFolder:item.isFolder
       }
       //All path status false trim *;
       this.service.deleteFile(upItem).subscribe(data=>{

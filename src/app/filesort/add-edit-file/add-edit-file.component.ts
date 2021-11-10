@@ -16,6 +16,7 @@ export class AddEditFileComponent implements OnInit {
   newNameFile?:string;
   dateCreatedFile?:string;
   modalTitle?:string;
+  listExtension:string[]=[".txt",".bpm","folder",".rtf",".zip"]
   ngOnInit(): void {
     this.nameFile = this.file.nameFile;
     this.typeFile = this.file.typeFile;
@@ -25,11 +26,12 @@ export class AddEditFileComponent implements OnInit {
     this.modalTitle = this.getproperty.ModalTitle;
   }
   addFile(){
+    var temppath = this.getproperty.returnPath(false,0,true); 
     var val = {
       nameFile:this.nameFile,
       typeFile:this.typeFile,
-      sizeFile:"0bytes",
-      dateCreatedFile:"nothing"
+      isFolder:this.typeFile == "folder" ? true:false,
+      currentDirectory:temppath
     };
     this.service.addFile(val).subscribe(res=>{
       alert(res.toString())
@@ -46,7 +48,6 @@ export class AddEditFileComponent implements OnInit {
       newNameFile:this.newNameFile,
       currentDirectory:temppath
     };
-    console.log(val);
     this.service.renameFile(val).subscribe(res=>{
       alert(res.toString());
   })}

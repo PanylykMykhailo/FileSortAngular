@@ -33,9 +33,9 @@ export class SharedService {
     }
     return this.http.get<any>(environment.APIVideoUrl + '/Video/GetOnlyVideo/' + some);
   }
-  uploadFile(formData:FormData)
+  uploadFile(formData:FormData,currentDirectory:string)
   {
-    return this.http.post<any>(environment.APIUrl + '/File/SaveFile',formData);
+    return this.http.post<any>(environment.APIUrl + '/File/SaveFile/' + currentDirectory,formData);
   }
   getOnlyPhoto(some:string):Observable<any[]>
   {
