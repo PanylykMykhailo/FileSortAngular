@@ -39,11 +39,14 @@ export class AddEditFileComponent implements OnInit {
 
   }
   renameFile(){
+    var temppath = this.getproperty.returnPath(false,0,true);
      var val = {
       nameFile:this.nameFile,
       typeFile:this.typeFile,
-      newNameFile:this.newNameFile
+      newNameFile:this.newNameFile,
+      currentDirectory:temppath
     };
+    console.log(val);
     this.service.renameFile(val).subscribe(res=>{
       alert(res.toString());
   })}

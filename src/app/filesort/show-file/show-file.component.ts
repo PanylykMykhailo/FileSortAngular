@@ -14,6 +14,7 @@ export class ShowFileComponent implements OnInit {
   FilesortList:any = [];
   ModalTitle?:string;
   ActivateAddEditFileComp:boolean = false;
+  ActivateUploadFileComp:boolean = false;
   OnlyFile:string[] = [".txt", ".doc", ".docx", ".docm", ".rtf", ".odt",".pdf",".arj", ".zip", ".rar", ".tar"];
   OnlyPhoto:string[] = [".svg", ".apng", ".fle", ".wlmp", ".bmp", ".gif", ".jpeg", ".tiff", ".png", ".eps", ".pdf", ".wmf",".jpg",".jfif"];
   OnlyVideo:string[] = [".mp3",".mp4", ".wav", ".wma", ".midi",".avi", ".flv", ".swf", ".wmv", ".mov", ".mpeg"];
@@ -24,7 +25,6 @@ export class ShowFileComponent implements OnInit {
   }
   addClick()
   {
-    console.log("goto");
     this.fileI =
     {
       NameFile:null,
@@ -34,10 +34,19 @@ export class ShowFileComponent implements OnInit {
     this.ActivateAddEditFileComp = true;
     this.isActive = false;
   }
+  uploadClick()
+  {
+    //this.ModalTitle = "Add File";
+    this.ModalTitle = "Upload File";
+    this.ActivateUploadFileComp = true;
+    this.isActive = false;
+  }
   editClick(item: any){
+    console.log(item);
     this.fileI = item;
     this.ModalTitle = "Edit File";
     this.ActivateAddEditFileComp = true;
+    this.isActive = false;
   }
   closeClick(){
     this.ActivateAddEditFileComp = false;
@@ -54,13 +63,14 @@ export class ShowFileComponent implements OnInit {
   deleteClick(item:any){
     if(confirm('Are you sure??'))
     {
+      var tepmpath = this.returnPath(false,0,true);
       let upItem = {
         nameFile:item.nameFile,
         typeFile:item.typeFile,
-        newNameFile:""
+        newNameFile:"",
+        currentDirectory:tepmpath
       }
       //All path status false trim *;
-      var tepmpath = this.returnPath(false,0,true);
       this.service.deleteFile(upItem).subscribe(data=>{
         this.refreshFileSortList(this.actionChoose,tepmpath);
       })

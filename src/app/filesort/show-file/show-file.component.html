@@ -1,10 +1,9 @@
-<div class="alert alert-light" role="alert">{{ message }}</div>
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="addFileModal" tabindex="-1" aria-labelledby="addFileModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role = "document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">{{ModalTitle}}</h5>
+          <h5 class="modal-title" id="addFileModalLabel">{{ModalTitle}}</h5>
           <button type="button" class="btn-close" 
           data-bs-dismiss="modal" aria-label="Close"
           (click)="closeClick()"></button>
@@ -12,6 +11,21 @@
         <div class="modal-body">
           <app-add-edit-file [file]="fileI" *ngIf="ActivateAddEditFileComp">
           </app-add-edit-file>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role = "document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" 
+          data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeClick()"></button>
+        </div>
+        <div class="modal-body">
+          <app-upload-file *ngIf="ActivateUploadFileComp">
+          </app-upload-file>
         </div>
       </div>
     </div>
@@ -39,15 +53,15 @@
                 <ul>
                   <li>
                     <a class="dropdown-item" 
-                    data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    data-bs-toggle="modal" data-bs-target="#addFileModal"
                     href="javascript:void(0);" (click)="addClick()"
                     data-backdrop = "static" data-keyboard="false">Add new File</a>
                   </li>
                   <li>
                     <a 
                     class="dropdown-item"
-                    data-bs-toggle="modal" data-bs-target="#exampleModal"
-                    href="javascript:void(0);" (click)="addClick()"
+                    data-bs-toggle="modal" data-bs-target="#uploadModal"
+                    href="javascript:void(0);" (click)="uploadClick()"
                     data-backdrop = "static" data-keyboard="false">
                     Upload File
                   </a>
@@ -85,7 +99,7 @@
             <td><span *ngIf = "dataItem.isFolder == true" class="badge bg-primary rounded-pill">{{dataItem.fileInFolder}}</span></td>
             <td>
               <button type = "button" class = "btn btn-light mr-1"
-              data-bs-toggle="modal" data-bs-target="#exampleModal"
+              data-bs-toggle="modal" data-bs-target="#addFileModal"
               (click)= renameClick(dataItem)
               data-backdrop = "static" data-keyboard="false"
               >
@@ -99,7 +113,7 @@
             <td>{{dataItem.dateCreatedFile}}</td>
             <td>
                 <button type = "button" class = "btn btn-light mr-1"
-                data-bs-toggle="modal" data-bs-target="#exampleModal"
+                data-bs-toggle="modal" data-bs-target="#addFileModal"
                 (click)="editClick(dataItem)"
                 data-backdrop = "static" data-keyboard="false"
                 >
