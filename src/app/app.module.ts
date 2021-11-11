@@ -12,13 +12,15 @@ import { HttpClientModule} from '@angular/common/http';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UploadFileComponent } from './filesort/upload-file/upload-file.component';
+import { EditFileComponent } from './filesort/edit-file/edit-file.component';
 @NgModule({
   declarations: [
     AppComponent,
     FilesortComponent,
     ShowFileComponent,
     AddEditFileComponent,
-    UploadFileComponent
+    UploadFileComponent,
+    EditFileComponent
   ],
   imports: [
     BrowserModule,
