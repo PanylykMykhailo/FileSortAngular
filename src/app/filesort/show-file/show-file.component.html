@@ -33,7 +33,7 @@
   <div class="modal" id="editModal" tabindex="-1">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <app-edit-file></app-edit-file>
+        <app-edit-file [file]="fileI" *ngIf="ActivateEditFileComp"></app-edit-file>
       </div>
     </div>
   </div>

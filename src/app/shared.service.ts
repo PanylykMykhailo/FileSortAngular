@@ -63,4 +63,8 @@ export class SharedService {
    }
     return this.http.delete(environment.APIUrl + '/File',options)
   }
+  editFile(val:any)
+  {
+    return this.http.put(environment.APIUrl + '/File/EditFile',val)
+  }
 }

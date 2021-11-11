@@ -15,6 +15,7 @@ export class ShowFileComponent implements OnInit {
   ModalTitle?:string;
   ActivateAddEditFileComp:boolean = false;
   ActivateUploadFileComp:boolean = false;
+  ActivateEditFileComp:boolean = false;
   actionChoose:string = location.href.split('/').slice(-1)[0];
   fileI:any;
   ngOnInit(): void {
@@ -39,15 +40,17 @@ export class ShowFileComponent implements OnInit {
     this.isActive = false;
   }
   editClick(item: any){
-    console.log(item);
     this.fileI = item;
-    this.ModalTitle = "Edit File";
-    this.ActivateAddEditFileComp = true;
-    this.isActive = false;
+    console.log(this.fileI);
+    //this.ModalTitle = "Edit File";
+    this.ActivateEditFileComp = true;
+    //this.ActivateAddEditFileComp = true;
+    //this.isActive = false;
   }
   closeClick(){
     this.ActivateAddEditFileComp = false;
     this.ActivateUploadFileComp = false;
+    this.ActivateEditFileComp = false;
     //All path status false trim
     var tepmpath = this.returnPath(false,0,true); 
     this.refreshFileSortList(this.actionChoose,tepmpath);
