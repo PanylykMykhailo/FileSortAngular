@@ -16,6 +16,7 @@ export class ShowFileComponent implements OnInit {
   ActivateAddEditFileComp:boolean = false;
   ActivateUploadFileComp:boolean = false;
   ActivateEditFileComp:boolean = false;
+  ActivateVideoComp:boolean = false;
   actionChoose:string = location.href.split('/').slice(-1)[0];
   fileI:any;
   ngOnInit(): void {
@@ -38,6 +39,10 @@ export class ShowFileComponent implements OnInit {
     this.ModalTitle = "Upload File";
     this.ActivateUploadFileComp = true;
     this.isActive = false;
+  }
+  videoClick()
+  {
+    this.ActivateVideoComp = true;
   }
   editClick(item: any){
     this.fileI = item;
