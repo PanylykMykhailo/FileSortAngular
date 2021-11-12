@@ -17,6 +17,8 @@ export class ShowFileComponent implements OnInit {
   ActivateUploadFileComp:boolean = false;
   ActivateEditFileComp:boolean = false;
   ActivateVideoComp:boolean = false;
+  typeCategory?:string;
+  getWebPath?:string;
   actionChoose:string = location.href.split('/').slice(-1)[0];
   fileI:any;
   ngOnInit(): void {
@@ -35,27 +37,27 @@ export class ShowFileComponent implements OnInit {
   }
   uploadClick()
   {
-    //this.ModalTitle = "Add File";
     this.ModalTitle = "Upload File";
     this.ActivateUploadFileComp = true;
     this.isActive = false;
   }
-  videoClick()
+  videoClick(dataItem:any)
   {
+    console.log(dataItem);
+    this.typeCategory = dataItem.typeCategory;
+    this.getWebPath = dataItem.linkToOpen;
     this.ActivateVideoComp = true;
   }
   editClick(item: any){
     this.fileI = item;
     console.log(this.fileI);
-    //this.ModalTitle = "Edit File";
     this.ActivateEditFileComp = true;
-    //this.ActivateAddEditFileComp = true;
-    //this.isActive = false;
   }
   closeClick(){
     this.ActivateAddEditFileComp = false;
     this.ActivateUploadFileComp = false;
     this.ActivateEditFileComp = false;
+    this.ActivateVideoComp = false;
     //All path status false trim
     var tepmpath = this.returnPath(false,0,true); 
     this.refreshFileSortList(this.actionChoose,tepmpath);
@@ -140,7 +142,6 @@ export class ShowFileComponent implements OnInit {
         tempfields +=  i <= index ? element + "*":"";
       });
       tempfields = tempfields.slice(0,-1);
-      //console.log(tempfields);
       return tempfields;
     }
     else{
@@ -148,7 +149,6 @@ export class ShowFileComponent implements OnInit {
         tempfields += element + "*";
       });
       tempfields = trim ? tempfields.slice(0,-1) : tempfields;
-      //console.log(tempfields
       return tempfields;
     }
   }
