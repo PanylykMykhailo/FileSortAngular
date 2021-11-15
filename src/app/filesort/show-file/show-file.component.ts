@@ -1,5 +1,6 @@
 import { HttpEventType, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { SharedService } from 'src/app/shared.service'; 
 @Component({
   selector: 'app-show-file',
@@ -125,6 +126,7 @@ export class ShowFileComponent implements OnInit {
       case "filesort":
         this.service.getFileList(some).subscribe(data=>
           {
+            console.log(data);
             this.FilesortList = data;
           });
           break;
@@ -157,3 +159,4 @@ export class ShowFileComponent implements OnInit {
     this.isActive = this.isActive ? false:true;
   }
 }
+

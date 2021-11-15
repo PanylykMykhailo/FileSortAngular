@@ -3,6 +3,13 @@ import{HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { NgForm } from '@angular/forms';
+import { FileInformation } from './filesort/upload-file/upload-file.component';
+export class ResponseEx{
+	constructor(
+        public HttpStatuscode: number
+        )
+	{ }
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -33,9 +40,9 @@ export class SharedService {
     }
     return this.http.get<any>(environment.APIVideoUrl + '/Video/GetOnlyVideo/' + some);
   }
-  uploadFile(formData:FormData,currentDirectory:string)
+  async uploadFile(date:Array<FileInformation>)//formData:FormData,currentDirectory:string
   {
-    return this.http.post<any>(environment.APIUrl + '/File/SaveFile/' + currentDirectory,formData);
+    return await this.http.post<any>(environment.APIUrl + '/File',date).toPromise();//'/File/SaveFile/' + currentDirectory,formData
   }
   getOnlyPhoto(some:string):Observable<any[]>
   {
@@ -68,3 +75,22 @@ export class SharedService {
     return this.http.put(environment.APIUrl + '/File/EditFile',val)
   }
 }
+// interface InfoAboutFiles
+// {
+//   CountFile:number;
+//   folderPath?:string[];
+//   infoaboutFile:Observable<InfoAboutFile>;
+        
+// }
+// interface InfoAboutFile
+// {
+//     NameFile?:string;
+//     TypeFile?:string;
+//     typeCategory?:string;
+//     linkToOpen?:string;
+//     SizeFile?:string;
+//     DateCreatedFile?:string; 
+//     isFolder?:boolean
+//     fileInFolder?:number;
+//     currentDirectory?:string
+// }

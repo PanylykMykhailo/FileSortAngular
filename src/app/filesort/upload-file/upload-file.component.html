@@ -16,15 +16,16 @@
   </div>
   
   <label class="btn btn-default">
-    <input type="file" multiple (change)="selectFiles($event)" />
+    <input type="file" multiple (change)="selectFiles($event)" /><!--selectFiles($event)-->
   </label>
   
   <button
     class="btn btn-success"
     [disabled]="!selectedFiles"
-    (click)="uploadFiles()"
+    (click)=  handleUpload()            
   >
     Upload
   </button>
+  <!--"uploadFiles()"-->
 </div>
 <div class="alert alert-light" role="alert">{{ message }}</div>
