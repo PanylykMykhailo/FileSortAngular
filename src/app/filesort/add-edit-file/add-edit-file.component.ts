@@ -16,6 +16,7 @@ export class AddEditFileComponent implements OnInit {
   newNameFile?:string;
   dateCreatedFile?:string;
   modalTitle?:string;
+  listExtension:string[]=[".txt",".bmp","folder",".rtf",".zip", ".doc", ".docx", ".docm", ".odt",".pdf",".arj", ".rar", ".tar",".svg", ".apng", ".fle", ".wlmp", ".gif", ".jpeg", ".tiff", ".png", ".eps", ".pdf", ".wmf",".jpg",".jfif",".mp3",".mp4", ".wav", ".wma", ".midi",".avi", ".flv", ".swf", ".wmv", ".mov", ".mpeg"]
   ngOnInit(): void {
     this.nameFile = this.file.nameFile;
     this.typeFile = this.file.typeFile;
@@ -25,24 +26,27 @@ export class AddEditFileComponent implements OnInit {
     this.modalTitle = this.getproperty.ModalTitle;
   }
   addFile(){
+    var temppath = this.getproperty.returnPath(false,0,true); 
     var val = {
       nameFile:this.nameFile,
       typeFile:this.typeFile,
-      sizeFile:"0bytes",
-      dateCreatedFile:"nothing"
+      isFolder:this.typeFile == "folder" ? true:false,
+      currentDirectory:temppath
     };
     this.service.addFile(val).subscribe(res=>{
-      alert(res.toString())
+      alert("Add new element");
     })
   }
   updateFile(){
 
   }
   renameFile(){
+    var temppath = this.getproperty.returnPath(false,0,true);
      var val = {
       nameFile:this.nameFile,
       typeFile:this.typeFile,
-      newNameFile:this.newNameFile
+      newNameFile:this.newNameFile,
+      currentDirectory:temppath
     };
     this.service.renameFile(val).subscribe(res=>{
       alert(res.toString());

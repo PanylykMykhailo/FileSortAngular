@@ -1,73 +1,162 @@
+import { HttpEventType, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { SharedService } from 'src/app/shared.service'; 
-//import { runInThisContext } from 'vm';
 @Component({
   selector: 'app-show-file',
   templateUrl: './show-file.component.html',
   styleUrls: ['./show-file.component.css']
 })
 export class ShowFileComponent implements OnInit {
-
+  document: any;
+  isActive?:boolean = false; 
   constructor(private service:SharedService) { }
-
+  open3Dots:boolean=false;
   FilesortList:any = [];
-
   ModalTitle?:string;
-  ActivateAddEditFileComp:boolean=false;
-  file:any;
+  ActivateAddEditFileComp:boolean = false;
+  ActivateUploadFileComp:boolean = false;
+  ActivateEditFileComp:boolean = false;
+  ActivateVideoComp:boolean = false;
+  typeCategory?:string;
+  getWebPath?:string;
+  actionChoose:string = location.href.split('/').slice(-1)[0];
+  fileI:any;
   ngOnInit(): void {
-    this.refreshFileSortList();
+    this.refreshFileSortList(this.actionChoose,"");
   }
-
   addClick()
   {
-    this.file =
+    this.fileI =
     {
       NameFile:null,
       DateCreatedFile:""
     }
     this.ModalTitle = "Add File";
     this.ActivateAddEditFileComp = true;
-
+    this.isActive = false;
+  }
+  uploadClick()
+  {
+    this.ModalTitle = "Upload File";
+    this.ActivateUploadFileComp = true;
+    this.isActive = false;
+  }
+  videoClick(dataItem:any)
+  {
+    console.log(dataItem);
+    this.typeCategory = dataItem.typeCategory;
+    this.getWebPath = dataItem.linkToOpen;
+    this.ActivateVideoComp = true;
   }
   editClick(item: any){
-    this.file = item;
-    this.ModalTitle = "Edit File";
-    this.ActivateAddEditFileComp = true;
+    this.fileI = item;
+    console.log(this.fileI);
+    this.ActivateEditFileComp = true;
   }
   closeClick(){
     this.ActivateAddEditFileComp = false;
-    this.refreshFileSortList();
+    this.ActivateUploadFileComp = false;
+    this.ActivateEditFileComp = false;
+    this.ActivateVideoComp = false;
+    //All path status false trim
+    var tepmpath = this.returnPath(false,0,true); 
+    this.refreshFileSortList(this.actionChoose,tepmpath);
   }
   renameClick(item:any)
   {
-    this.file = item;
+    this.fileI = item;
     this.ModalTitle = "Rename File";
     this.ActivateAddEditFileComp = true;
   }
   deleteClick(item:any){
     if(confirm('Are you sure??'))
     {
+      var tepmpath = this.returnPath(false,0,true);
       let upItem = {
         nameFile:item.nameFile,
         typeFile:item.typeFile,
-        newNameFile:""
+        currentDirectory:tepmpath,
+        isFolder:item.isFolder
       }
+      //All path status false trim *;
       this.service.deleteFile(upItem).subscribe(data=>{
-        this.refreshFileSortList();
+        this.refreshFileSortList(this.actionChoose,tepmpath);
       })
     }
   }
-  refreshFileSortList()
+  openFolderClick(index:number)
   {
-    this.service.getOnlyFile().subscribe(data=>
-      {
-        this.FilesortList = data;
+    var tepmpath = "";
+    if(index != 0)
+    {
+      tepmpath = this.returnPath(true,index,true);
+    }
+    this.refreshFileSortList(this.actionChoose,tepmpath);
+  }
+  
+  checkClick(nameFolder:string)
+  {
+    var tempfields = this.returnPath(false,0,false);
+    console.log(tempfields + nameFolder);
+    this.refreshFileSortList(this.actionChoose,tempfields + nameFolder)
+  }
+  refreshFileSortList(val:string,some:string)
+  {
+    switch(val)
+    {
+      case "file":
+        this.service.getOnlyFile(some).subscribe(data=>
+          {
+            this.FilesortList = data;
+          });
+        break;
+      case "video":
+        this.service.getOnlyVideo(some).subscribe(data=>
+          {
+            this.FilesortList = data;
+          });
+        break;
+      case "photo":
+        this.service.getOnlyPhoto(some).subscribe(data=>
+          {
+            this.FilesortList = data;
+          });
+          break;
+      case "filesort":
+        this.service.getFileList(some).subscribe(data=>
+          {
+            console.log(data);
+            this.FilesortList = data;
+          });
+          break;
+      default:
+        console.log("Not Found");
+        break;
+    }
+  }
+  returnPath(status:boolean,index:number,trim:boolean):string
+  {
+    var tempfields = "";
+    if(status)
+    {
+      this.FilesortList.folderPath?.forEach((element:string,i:number) => {
+        tempfields +=  i <= index ? element + "*":"";
       });
-    /*this.service.getFileList().subscribe(data=>
-      {
-          this.FilesortList = data;
-      }
-      )*/
+      tempfields = tempfields.slice(0,-1);
+      return tempfields;
+    }
+    else{
+      this.FilesortList.folderPath?.forEach((element:string) => {
+        tempfields += element + "*";
+      });
+      tempfields = trim ? tempfields.slice(0,-1) : tempfields;
+      return tempfields;
+    }
+  }
+  isClick3Dots()
+  {
+    this.isActive = this.isActive ? false:true;
   }
 }
+

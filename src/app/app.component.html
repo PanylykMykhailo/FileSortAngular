@@ -1,15 +1,36 @@
 <div class = "container">
-    <h3 class = "d-flex justify-content-center">File Sort App</h3>
-    <h5 class = "d-flex justify-content-center">Workspace</h5>
-
+  <div id="carouselExampleInterval" class="carousel slide sizecontainer" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div  [ngClass]="{'carousel-item': true,'active': isActive }">
+        <img src="{{navigationButton[currentPosition]}}" class="d-block w-100 sizecontainer">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" (click)="prevArrow()" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+      <span class="carousel-control-next-icon" (click)="nextArrow()" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
     <nav class = "navnar navbar-expand-sm bg-liight navbar">
-        <ul class = "navbar-nav">
+        <ul class = "navbar-nav navbar-nav_position">
             <li class = "nav-item">
-                <button routerLink = "filesort" 
-                class="m-1 btn btn-light btn-outline-primary" Button>Open List</button>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                  Action with Folder
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                  <li><a  class="dropdown-item active" href="filesort/file">Select only file</a></li>
+                  <li><a class="dropdown-item" href="filesort/photo">Select only photo</a></li>
+                  <li><a class="dropdown-item" href="filesort/video">Select only video</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="filesort">Select all</a></li>
+                </ul>
+              </div>
             </li>
         </ul>
-    </nav>
+      </nav>
 <router-outlet></router-outlet>
-
 </div>

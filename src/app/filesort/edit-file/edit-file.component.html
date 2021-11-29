@@ -1,0 +1,11 @@
+<div class="modal-header">
+    <h5 class="modal-title">Modal title</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeClick()" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <textarea #myText (paste)="onPaste($event)"  [(ngModel)]='content'  class="form-control" rows="10"></textarea>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeClick()"  data-bs-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary" (click)="onInput(myText.value)">Save changes</button>
+  </div>
